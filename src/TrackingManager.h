@@ -52,6 +52,12 @@ class TrackingManager
 		ofxFloatSlider maxdistance;
 		ofxFloatSlider persistance;
 
+
+		ofxButton changeBlobSize;
+		ofxFloatSlider oneBlobGui;
+		ofxFloatSlider twoBlobGui;
+		ofxFloatSlider threeBlobGui;
+
 		ofxJSONElement configTrack;
 
 		int _minarea;
@@ -59,6 +65,7 @@ class TrackingManager
 		int _threshold;
 		int _maxdistance;
 		int _persistance;
+		int _y;
 
 
 

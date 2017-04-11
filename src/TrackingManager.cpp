@@ -22,6 +22,7 @@ void TrackingManager::setup(Tracking_Configuration _trackingConfig)
 	_historyLength = _trackingConfig.history;
 	_camerawidth = _trackingConfig.camerawidth;
 	_cameraheight = _trackingConfig.cameraheight;
+	_y =_trackingConfig.startPos.y;
 
 
 
@@ -39,9 +40,13 @@ void TrackingManager::setup(Tracking_Configuration _trackingConfig)
 	guiTracking.add(persistance.setup("persistance", _trackingConfig.persistance, 0, 10));
 
 
+	guiTracking.add(changeBlobSize.setup("Update blob size"));
+	guiTracking.add(oneBlobGui.setup("oneBlobGui", _trackingConfig.minsizeone, 0, 400));
+	guiTracking.add(twoBlobGui.setup("twoBlobGui", _trackingConfig.minsizetwo, 0, 700));
+	guiTracking.add(threeBlobGui.setup("threeBlobGui", _trackingConfig.minsizethree, 0, 900));
+
+
 	configTrack.open("config.json");
-
-
 }
 //--------------------------------------------------------------
 
@@ -70,6 +75,14 @@ void TrackingManager::updateGui()
 	if(saveTrack){
 		saveGui();
 	}
+	if(changeBlobSize){
+		_oneBlob=oneBlobGui;
+		_twoBlob=twoBlobGui;
+		_threeBlob=threeBlobGui;
+		TrackingHistory trackingHistorytmp;
+		trackingHistorytmp.setup(_oneBlob,_twoBlob,_threeBlob,_y);
+		trackingHistory=trackingHistorytmp;
+	}
 }
 
 void TrackingManager::saveGui(){
@@ -79,6 +92,9 @@ void TrackingManager::saveGui(){
 	configTrack["Footfall"]["TrackingConfig"]["threshold"]= _threshold;
 	configTrack["Footfall"]["TrackingConfig"]["maxdistance"]= _maxdistance;
 	configTrack["Footfall"]["TrackingConfig"]["persistance"]= _persistance;
+	configTrack["Footfall"]["TrackingConfig"]["minsizeone"]= _oneBlob;
+	configTrack["Footfall"]["TrackingConfig"]["minsizetwo"]= _twoBlob;
+	configTrack["Footfall"]["TrackingConfig"]["minsizethree"]= _threeBlob;
 
 	configTrack.save("config.json", true);
 }
