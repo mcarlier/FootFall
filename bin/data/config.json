@@ -23,18 +23,18 @@
                "coordy" : 100
             }
          ],
-         "blur" : 0,
+         "blur" : 6,
          "cameraheight" : 600,
          "camerawidth" : 800,
-         "dilate" : 5,
+         "dilate" : 3,
          "erode" : 4,
          "fliphorizontally" : false,
          "flipvertically" : false,
          "history" : 100,
-         "mogthreshold" : 16,
+         "mogthreshold" : 6,
          "shadowpixelratio" : 0.5,
          "showshadowimage" : true,
-         "threshold" : 250,
+         "threshold" : 239,
          "trackshadows" : true,
          "usemask" : false
       },
@@ -48,17 +48,17 @@
       "TrackingConfig" : {
          "blobdyingtime" : 0.5,
          "flipvertically" : false,
-         "maxarea" : 150,
-         "maxdistance" : 50,
-         "minarea" : 25,
+         "maxarea" : 400,
+         "maxdistance" : 180,
+         "minarea" : 100,
          "minsizeone" : 25,
-         "minsizethree" : 3000,
-         "minsizetwo" : 1050,
+         "minsizethree" : 800,
+         "minsizetwo" : 600,
          "offset" : 15,
-         "persistance" : 1,
+         "persistance" : 5,
          "startposx" : 0,
-         "startposy" : 360,
-         "threshold" : 150
+         "startposy" : 260,
+         "threshold" : 78
       }
    }
 }
