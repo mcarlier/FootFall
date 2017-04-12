@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleGetInfoString</key>
-  <string>Footfall.app</string>
+  <string>FootFall.app</string>
   <key>CFBundleExecutable</key>
-  <string>Footfall</string>
+  <string>FootFall</string>
   <key>CFBundleIdentifier</key>
   <string>com.your-company-name.www</string>
   <key>CFBundleName</key>
-  <string>Footfall</string>
+  <string>FootFall</string>
   <key>CFBundleShortVersionString</key>
   <string>0.01</string>
   <key>CFBundleInfoDictionaryVersion</key>
