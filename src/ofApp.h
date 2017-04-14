@@ -12,8 +12,14 @@
 #include "TrackingManager.h"
 #include "HTTPManager.h"
 #include "CsvManager.h"
+#include "ofxOsc.h"
 //#include "ofxGui.h"
 
+#define PORT 9001
+#define NUM_MSG_STRINGS 20
+
+#define HOSTLIGHT "10.0.0.41"
+#define PORTLIGHT 9001
 
 class ofApp : public ofBaseApp
 {
@@ -39,6 +45,12 @@ class ofApp : public ofBaseApp
 		bool _logToServer;
 		int peopleIn;
 		int peopleOut;
+
+		int maxPeopleIn;
+		int total;
+		void updateLight(int value);
+		ofxOscReceiver	receiver;
+		ofxOscSender sender;
 
 
 };

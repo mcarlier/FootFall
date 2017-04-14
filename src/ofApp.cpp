@@ -31,6 +31,13 @@ void ofApp::setup()
 	ofAddListener(trackingManager.blobIn, this, &ofApp::blobIn);
 	ofAddListener(trackingManager.blobOut, this, &ofApp::blobOut);
 
+	cout << "listening for osc messages on port " << PORT << "\n";
+	receiver.setup( PORT );
+	sender.setup( HOSTLIGHT, PORTLIGHT );
+
+	maxPeopleIn = 10;
+	total = 0;
+
 
 }
 //--------------------------------------------------------------
@@ -47,6 +54,42 @@ void ofApp::update()
 {
 	cameraManager.update();
 	trackingManager.update(cameraManager.getImage());
+
+		while( receiver.hasWaitingMessages() )
+	{
+		if((peopleIn-peopleOut)!=total){
+			total = peopleIn-peopleOut;
+			updateLight(int(total*100/maxPeopleIn));
+
+		}
+		ofxOscMessage m;
+		receiver.getNextMessage( &m );
+
+		if(m.getAddress()=="/slider0"){
+				updateLight((int)m.getArgAsFloat( 0 ));
+		}
+		if(m.getAddress()=="/slider1"){
+			if((int)m.getArgAsFloat(0)!=0){
+				maxPeopleIn = (int)m.getArgAsFloat(0);
+				updateLight(int(total*100/maxPeopleIn));
+
+
+			}
+
+		}
+		if(m.getAddress()=="/knob0"){
+			peopleIn = (int)m.getArgAsFloat(0);
+			peopleOut = 0;
+		}
+	}
+}
+
+void ofApp::updateLight(int value){
+	ofxOscMessage m;
+	std::cout << "light % "<<value << '\n';
+	m.setAddress( "/light" );
+	m.addFloatArg(value);
+	sender.sendMessage( m );
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -61,7 +104,8 @@ void ofApp::draw()
 	ss << "Footfall" << endl;
 	ss << "People In: " << peopleIn;
 	ss << " People Out: " << peopleOut;
-	ss << " Tally: " << (peopleIn-peopleOut);
+	ss << " Tally: " << total;
+	ss << " maxPeopleIn: " << maxPeopleIn;
 	ss << " FPS: " << ofGetFrameRate() << endl;
 	ofDrawBitmapStringHighlight(ss.str(),7,ofGetHeight()-20);
 

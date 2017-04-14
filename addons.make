@@ -4,3 +4,4 @@ ofxOpenCv
 ofxJSON
 ofxHttpUtils
 ofxGui
+ofxOsc
