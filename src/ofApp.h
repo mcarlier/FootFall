@@ -18,8 +18,8 @@
 #define PORT 9001
 #define NUM_MSG_STRINGS 20
 
-#define HOSTLIGHT "10.0.0.41"
-#define PORTLIGHT 9001
+#define HOSTLIGHT "0.0.0.0"
+#define PORTLIGHT 8080
 
 class ofApp : public ofBaseApp
 {

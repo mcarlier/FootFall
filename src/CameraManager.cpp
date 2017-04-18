@@ -52,6 +52,9 @@ void CameraManager::setup(Camera_Configuration _cameraConfig)
 #ifdef USE_WEBCAM
 	cout << " - Using Web Camera" << endl;
 	videoGrabber.setVerbose(true);
+	ofSetLogLevel(OF_LOG_VERBOSE);
+	videoGrabber.listDevices();
+	videoGrabber.setDeviceID(1);
 	videoGrabber.setup(_cameraConfig.camerawidth, _cameraConfig.cameraheight);
 #endif
 
@@ -78,7 +81,6 @@ void CameraManager::setup(Camera_Configuration _cameraConfig)
 	guiCamera.add(shadowPixelRatioGui.setup("shadowPixelRatio", _cameraConfig.shadowPixelRatio, 0, 1));
 
 	configCam.open("config.json");
-	std::cout << configCam["Footfall"]["CameraConfig"]["threshold"] << '\n';
 }
 //--------------------------------------------------------------
 void CameraManager::update()

@@ -57,30 +57,24 @@ void ofApp::update()
 
 		while( receiver.hasWaitingMessages() )
 	{
-		if((peopleIn-peopleOut)!=total){
-			total = peopleIn-peopleOut;
-			updateLight(int(total*100/maxPeopleIn));
 
-		}
 		ofxOscMessage m;
 		receiver.getNextMessage( &m );
 
-		if(m.getAddress()=="/slider0"){
-				updateLight((int)m.getArgAsFloat( 0 ));
-		}
-		if(m.getAddress()=="/slider1"){
-			if((int)m.getArgAsFloat(0)!=0){
-				maxPeopleIn = (int)m.getArgAsFloat(0);
+		if(m.getAddress()=="/fullness"){
+			if(stoi(m.getArgAsString(0))!=0){
+				maxPeopleIn = stoi(m.getArgAsString(0));
 				updateLight(int(total*100/maxPeopleIn));
-
-
 			}
-
 		}
-		if(m.getAddress()=="/knob0"){
-			peopleIn = (int)m.getArgAsFloat(0);
+		if(m.getAddress()=="/peopleInside"){
+			peopleIn = stoi(m.getArgAsString(0));
 			peopleOut = 0;
 		}
+	}
+	if((peopleIn-peopleOut)!=total){
+		total = peopleIn-peopleOut;
+		updateLight(int(total*100/maxPeopleIn));
 	}
 }
 
