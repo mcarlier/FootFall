@@ -71,10 +71,24 @@ void ofApp::update()
 			peopleIn = stoi(m.getArgAsString(0));
 			peopleOut = 0;
 		}
+		if(m.getAddress()=="/getdata"){
+			ofxOscMessage m;
+			std::cout << "total In : "<<total << '\n';
+			std::cout << "maxPeopleIn : "<<maxPeopleIn << '\n';
+			m.setAddress( "/data" );
+			m.addIntArg(peopleIn);
+			m.addIntArg(maxPeopleIn);
+			sender.sendMessage( m );
+		}
 	}
 	if((peopleIn-peopleOut)!=total){
 		total = peopleIn-peopleOut;
 		updateLight(int(total*100/maxPeopleIn));
+		ofxOscMessage m;
+		std::cout << "peopleInside : "<<total << '\n';
+		m.setAddress( "/peopleInside" );
+		m.addIntArg(total);
+		sender.sendMessage( m );
 	}
 }
 
