@@ -61,46 +61,34 @@ void ofApp::update()
 		ofxOscMessage m;
 		receiver.getNextMessage( &m );
 		std::cout << m.getAddress() << '\n';
-		if(m.getAddress()=="/fullness"){
-			if(stoi(m.getArgAsString(0))!=0){
-				maxPeopleIn = stoi(m.getArgAsString(0));
-				updateLight();
-			}
-		}
 		if(m.getAddress()=="/peopleInside"){
 			peopleIn = stoi(m.getArgAsString(0));
 			peopleOut = 0;
+			total = peopleIn;
+			std::cout << "update from Light Remote peopleInside = "<< total << '\n';
 		}
-		if(m.getAddress()=="/getdata"){
+		if(m.getAddress()=="/getPeopleInside"){
+			std::cout << "new connection on Light Remote send peopleInside = "<< total << '\n';
 			ofxOscMessage m;
-			std::cout << "total In : "<<total << '\n';
-			std::cout << "maxPeopleIn : "<<maxPeopleIn << '\n';
-			m.setAddress( "/data" );
+			m.setAddress( "/peopleInside" );
 			m.addIntArg(total);
-			m.addIntArg(maxPeopleIn);
 			sender.sendMessage( m );
-			updateLight();
 		}
+	}
+	if (peopleOut>peopleIn){
+		peopleIn = 0;
+		peopleOut = 0;
 	}
 	if((peopleIn-peopleOut)!=total){
 		total = peopleIn-peopleOut;
-		updateLight();
 		ofxOscMessage m;
-		std::cout << "peopleInside : "<<total << '\n';
+		std::cout << "update from Footfall peopleInside =  : "<<total << '\n';
 		m.setAddress( "/peopleInside" );
 		m.addIntArg(total);
 		sender.sendMessage( m );
 	}
 }
 
-void ofApp::updateLight(){
-	int value = int(total*100/maxPeopleIn);
-	ofxOscMessage m;
-	std::cout << "light % "<<value << '\n';
-	m.setAddress( "/light" );
-	m.addFloatArg(value);
-	sender.sendMessage( m );
-}
 //--------------------------------------------------------------
 void ofApp::draw()
 {

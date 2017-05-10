@@ -19,6 +19,8 @@
 #define NUM_MSG_STRINGS 20
 
 #define HOSTLIGHT "packshot02.local"
+//#define HOSTLIGHT "192.168.1.53"
+
 #define PORTLIGHT 8080
 
 class ofApp : public ofBaseApp
