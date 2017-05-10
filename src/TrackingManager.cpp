@@ -42,8 +42,8 @@ void TrackingManager::setup(Tracking_Configuration _trackingConfig)
 
 	guiTracking.add(changeBlobSize.setup("Update blob size"));
 	guiTracking.add(oneBlobGui.setup("oneBlobGui", _trackingConfig.minsizeone, 0, 400));
-	guiTracking.add(twoBlobGui.setup("twoBlobGui", _trackingConfig.minsizetwo, 0, 700));
-	guiTracking.add(threeBlobGui.setup("threeBlobGui", _trackingConfig.minsizethree, 0, 900));
+	guiTracking.add(twoBlobGui.setup("twoBlobGui", _trackingConfig.minsizetwo, 0, 1000));
+	guiTracking.add(threeBlobGui.setup("threeBlobGui", _trackingConfig.minsizethree, 0, 1500));
 
 
 	configTrack.open("config.json");

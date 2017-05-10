@@ -23,7 +23,7 @@
                "coordy" : 100
             }
          ],
-         "blur" : 6,
+         "blur" : 10,
          "cameraheight" : 600,
          "camerawidth" : 800,
          "dilate" : 3,
@@ -49,15 +49,15 @@
          "blobdyingtime" : 0.5,
          "flipvertically" : false,
          "maxarea" : 400,
-         "maxdistance" : 180,
+         "maxdistance" : 400,
          "minarea" : 100,
          "minsizeone" : 25,
-         "minsizethree" : 800,
-         "minsizetwo" : 600,
-         "offset" : 15,
-         "persistance" : 5,
+         "minsizethree" : 1200,
+         "minsizetwo" : 800,
+         "offset" : 80,
+         "persistance" : 10,
          "startposx" : 0,
-         "startposy" : 260,
+         "startposy" : 280,
          "threshold" : 78
       }
    }

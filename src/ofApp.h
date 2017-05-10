@@ -18,7 +18,7 @@
 #define PORT 9001
 #define NUM_MSG_STRINGS 20
 
-#define HOSTLIGHT "0.0.0.0"
+#define HOSTLIGHT "packshot02.local"
 #define PORTLIGHT 8080
 
 class ofApp : public ofBaseApp
@@ -48,7 +48,7 @@ class ofApp : public ofBaseApp
 
 		int maxPeopleIn;
 		int total;
-		void updateLight(int value);
+		void updateLight();
 		ofxOscReceiver	receiver;
 		ofxOscSender sender;
 
