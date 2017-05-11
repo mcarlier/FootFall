@@ -13,8 +13,6 @@ void ofApp::setup()
 	ofSetVerticalSync(true);
 	ofSetFrameRate(25);
 
-
-
 	cout << "-------------------- Footfall --------------------" << endl;
 
 	configManager.loadConfiguration("config.json");
@@ -33,10 +31,12 @@ void ofApp::setup()
 
 	cout << "listening for osc messages on port " << PORT << "\n";
 	receiver.setup( PORT );
-	sender.setup( HOSTLIGHT, PORTLIGHT );
+	senderPackshot.setup( HOSTLIGHT, PORTLIGHT );
+	senderCaptor.setup(HOSTCAPTEUR,PORTCAPTEUR);
 
 	maxPeopleIn = 10;
 	total = 0;
+	peopleDetected = 0;
 
 
 }
@@ -61,32 +61,51 @@ void ofApp::update()
 		ofxOscMessage m;
 		receiver.getNextMessage( &m );
 		std::cout << m.getAddress() << '\n';
-		if(m.getAddress()=="/peopleInside"){
-			peopleIn = stoi(m.getArgAsString(0));
-			peopleOut = 0;
-			total = peopleIn;
-			std::cout << "update from Light Remote peopleInside = "<< total << '\n';
-		}
-		if(m.getAddress()=="/getPeopleInside"){
-			std::cout << "new connection on Light Remote send peopleInside = "<< total << '\n';
-			ofxOscMessage m;
-			m.setAddress( "/peopleInside" );
-			m.addIntArg(total);
-			sender.sendMessage( m );
+		// if(m.getAddress()=="/peopleInside"){
+		// 	peopleIn = stoi(m.getArgAsString(0));
+		// 	peopleOut = 0;
+		// 	total = peopleIn;
+		// 	std::cout << "update from Light Remote peopleInside = "<< total << '\n';
+		// }
+		// if(m.getAddress()=="/getPeopleInside"){
+		// 	std::cout << "new connection on Light Remote send peopleInside = "<< total << '\n';
+		// 	ofxOscMessage m;
+		// 	m.setAddress( "/peopleInside" );
+		// 	m.addIntArg(total);
+		// 	senderPackshot.sendMessage( m );
+		// }
+		if(m.getAddress()=="/answerDetection"){
+			std::cout << "answer"<< '\n';
+			bool answer = m.getArgAsBool(0);
+			if(answer){
+				std::cout << "new connection on Light Remote send peopleInside = "<< peopleDetected << '\n';
+				ofxOscMessage m;
+				m.setAddress( "/updatePeopleInside" );
+				m.addIntArg(peopleDetected);
+				senderPackshot.sendMessage( m );
+			}
+			peopleDetected = 0;
 		}
 	}
 	if (peopleOut>peopleIn){
 		peopleIn = 0;
 		peopleOut = 0;
 	}
-	if((peopleIn-peopleOut)!=total){
-		total = peopleIn-peopleOut;
-		ofxOscMessage m;
-		std::cout << "update from Footfall peopleInside =  : "<<total << '\n';
-		m.setAddress( "/peopleInside" );
-		m.addIntArg(total);
-		sender.sendMessage( m );
-	}
+	// if((peopleIn-peopleOut)!=total){
+	// 	total = peopleIn-peopleOut;
+	// 	ofxOscMessage m;
+	// 	std::cout << "update from Footfall peopleInside =  : "<<total << '\n';
+	// 	m.setAddress( "/peopleInside" );
+	// 	m.addIntArg(total);
+	// 	senderPackshot.sendMessage( m );
+	// }
+}
+void ofApp::confirmDetection(int val)
+{
+	peopleDetected +=val;
+	ofxOscMessage m;
+	m.setAddress( "/isSomeoneDetected" );
+	senderCaptor.sendMessage( m );
 }
 
 //--------------------------------------------------------------
@@ -124,17 +143,13 @@ void ofApp::keyReleased(int key)
 void ofApp::blobIn(int &val)
 {
 	peopleIn += val;
+	confirmDetection(val);
 	cout << val << " Blob(s) Came In" << endl;
-
-	if (_logToServer) httpManager.post(ofToString(val));
-	if (_logToCsv) csvManager.addRecord(ofToString(val), ofGetTimestampString("%Y-%m-%d %H:%M:%S"));
 }
 //--------------------------------------------------------------
 void ofApp::blobOut(int &val)
 {
 	peopleOut += abs(val);
+	confirmDetection(val);
 	cout << val << " Blob(s) Went Out" << endl;
-
-	if (_logToServer) httpManager.post(ofToString(val));
-	if (_logToCsv) csvManager.addRecord(ofToString(val), ofGetTimestampString("%Y-%m-%d %H:%M:%S"));
 }
