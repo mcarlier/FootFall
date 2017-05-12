@@ -57,9 +57,8 @@
          "offset" : 80,
          "persistance" : 10,
          "startposx" : 0,
-         "startposy" : 280,
+         "startposy" : 290,
          "threshold" : 78
       }
    }
 }
-

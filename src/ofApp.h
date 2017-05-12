@@ -13,6 +13,7 @@
 #include "HTTPManager.h"
 #include "CsvManager.h"
 #include "ofxOsc.h"
+#include <ctime>
 //#include "ofxGui.h"
 
 #define PORT 9001
@@ -20,10 +21,12 @@
 
 #define HOSTLIGHT "packshot02.local"
 #define HOSTCAPTEUR "packshot01.local"
+//#define HOSTCAPTEUR "192.168.1.70"
+
 //#define HOSTLIGHT "192.168.1.53"
 
-#define PORTLIGHT 8080
-#define PORTCAPTEUR 8080
+#define PORTLIGHT 9000
+#define PORTCAPTEUR 9000
 
 
 class ofApp : public ofBaseApp
@@ -55,6 +58,7 @@ class ofApp : public ofBaseApp
 		int total;
 
 		int peopleDetected;
+		time_t lastBlob;
 		void confirmDetection(int val);
 
 		ofxOscReceiver	receiver;
